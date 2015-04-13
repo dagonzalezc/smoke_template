@@ -1,0 +1,67 @@
+common: &common
+  endpoint: &endpoint
+    development: development
+    production: production
+    test: test
+    default: test
+  methodparam: &asignmethodwithparam
+    login: initiator
+    billpay: reference1
+    procesar: Aviso
+  methods: &methods
+      createsession: &createsession
+        actiontype: POST
+        internalaction: token
+        endpoint: test
+        dependence:
+        params:
+      login: &methodlogin
+        actiontype: POST
+        internalaction: login
+        endpoint: test
+        paramWithService: sessionid
+        dependence: &logindependence
+          createsession:
+        params: &loginparams
+          sessionid:
+          initiator:
+          pin:
+      procesar: &methodprocesar
+        actiontype: GET
+        internalaction: query
+        endpoint: test
+        dependence: &procesardependence
+        params: &procesarparams
+          operacion: ConNor
+          parametros:
+            ModBusqueda:
+            parametroExclusivo1:
+            NumMaxSaldos:
+            Aviso:
+            NomEmpresa:
+            NumServicio:
+            IdentificadorS1:
+      billpay: &methodbillpay
+        actiontype: POST
+        internalaction: pay
+        endpoint: test
+        dependence: &billpaydependence
+          login:
+          createsession:
+        params: &billpayparams
+          sessionid:
+          target:
+          amount:
+          reference1:
+          reference2:
+          details:
+services: &services
+  enee: &enee
+    methods: &eneemethods
+      <<: *methods
+  aguas: &aguas
+    methods: &aguasmethods
+      <<: *methods
+  sanaa: &sanaa
+    methods: &sanaamethods
+      <<: *methods

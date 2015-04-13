@@ -1,0 +1,30 @@
+common: &common
+  validationes: &validationes
+    fields: &fields
+      account: account
+      amount: amount
+    rules: &rules
+      accountrules: &accountrules
+        rule1: account >0
+      amountrules: &amountrules
+        rule1: amount >0
+  methods: &methods
+    login: &login
+      fields: &loginfields
+        sessionid:
+        initiator:
+        pin:
+      rules: &loginrules
+        rule1: initiator.length >0
+        rule2: pin.length > 0
+        rule3: sessionid.length  > 0
+        rule4: initiator > '6' 
+    createsession: &createsession
+    query: &query
+services: &services
+  enee: &enee
+    methods: &eneemethods
+      <<: *methods
+  aguas: &aguas
+    methods: &aguasmethods
+      <<: *methods

@@ -1,0 +1,16 @@
+<Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <Body>
+      <loginResponse>
+         <loginReturn>
+            <% if parametros[:add] == true %>
+               <added>Added Information with Flag</added>
+            <% end %>
+            <transid><%= parametros[:valor1] %></transid>
+            <schedule_id>510100</schedule_id>
+            <result>0</result>
+            <result_namespace>umarket</result_namespace>
+            <trans_ext_reference>c</trans_ext_reference>
+         </loginReturn>
+      </loginResponse>
+   </Body>
+</Envelope>
