@@ -10,22 +10,20 @@ require 'nokogiri'
 
 module Methods
 	
-	def manage_request(method_request)
-		data = Nokogiri::XML(method_request.read).remove_namespaces!
+	def manage_request(method_request, content_type )
 
-		name = data.xpath("//Body")[0].element_children[0].name
-
-		case name
-			when "login"				
-				Login.login(data.xpath("//Body"))
-				#Actions.get_actions.inspect.to_s
-			when "billpay"
-				#Pay.pay(data)
-			when "createsession"
-				#CreateSession.create_session(data)
-			when "procesar"
+		if content_type.to_s.include?('xml') then
+			require './lib/parsers/xml_parser'			
+			parser= XmlParser.get_parser(method_request) 
 		end
-			
+
+		case parser[:body][:method]
+			when "login"
+					Login.login(parser)
+			when "procesar"
+					Procesar.procesar(parser)
+		end
+		#parser		
 	end
 
 end

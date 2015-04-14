@@ -1,4 +1,4 @@
-
+require 'yaml'
 class Configuration
 	attr_accessor :file_methods, :file_validator
 	def self.get_validator

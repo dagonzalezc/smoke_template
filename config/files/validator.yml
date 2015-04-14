@@ -1,4 +1,4 @@
-common: &common
+provider: &common
   validationes: &validationes
     fields: &fields
       account: account
@@ -18,9 +18,16 @@ common: &common
         rule1: initiator.length >0
         rule2: pin.length > 0
         rule3: sessionid.length  > 0
-        rule4: initiator > '6' 
     createsession: &createsession
-    query: &query
+    procesar: &query
+      fields: &procesarfields
+        operacion:
+        NomEmpresa:
+        ModBusqueda:
+      rules: &procesarrules
+        rule1: operacion == 'ConNor'
+        rule2: NomEmpresa.length > 1
+        rule3: ModBusqueda == '20'
 services: &services
   enee: &enee
     methods: &eneemethods

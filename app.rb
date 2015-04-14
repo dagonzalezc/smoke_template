@@ -16,10 +16,11 @@ class SmokeTemplate < Sinatra::Base
 		register Sinatra::RespondWith
 	end
 
-	post '/', :provides =>[:xml] do
-		use_response = manage_request(request.body)
-		use_response.to_s
-		#respond_with use_response[:view],:parametros => use_response[:params]	
+	post '/', :provides =>[:xml]  do
+		
+		use_response = manage_request(request.body,headers['Content-Type'])
+		#use_response.to_s
+		respond_with use_response[:view],:parametros => use_response[:params]	
 	end
 
 	get '/', :provides =>[:xml] do
