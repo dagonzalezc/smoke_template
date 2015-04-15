@@ -1,4 +1,4 @@
-provider: &common
+partner: &common
   validationes: &validationes
     fields: &fields
       account: account
@@ -28,10 +28,13 @@ provider: &common
         rule1: operacion == 'ConNor'
         rule2: NomEmpresa.length > 1
         rule3: ModBusqueda == '20'
-services: &services
-  enee: &enee
-    methods: &eneemethods
-      <<: *methods
-  aguas: &aguas
-    methods: &aguasmethods
-      <<: *methods
+    query:
+      fields:
+      rules:
+  services: &services
+    enee: &enee
+      methods: &eneemethods
+        <<: *methods
+    aguas: &aguas
+      methods: &aguasmethods
+        <<: *methods

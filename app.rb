@@ -17,15 +17,26 @@ class SmokeTemplate < Sinatra::Base
 	end
 
 	post '/', :provides =>[:xml]  do
-		
-		use_response = manage_request(request.body,headers['Content-Type'])
+		#request.path_info.to_s
+		use_response = Manager.request(request,params)
 		#use_response.to_s
-		respond_with use_response[:view],:parametros => use_response[:params]	
+		respond_with use_response[:view],:parameters => use_response[:params]	
 	end
 
 	get '/', :provides =>[:xml] do
-		use_response = manage_request(request.body)
-		respond_with use_response[:view],:parametros => use_response[:params]		
+		use_response = Manager.request(request,params)
+		respond_with use_response[:view],:parameters => use_response[:params]		
+	end
+
+	post '/url_param', :provides =>[:xml]  do
+				
+		use_response = Manager.request(request,params)
+		use_response.to_s
+		respond_with use_response[:view],:parameters => use_response[:params]
+	end
+
+	post '/json', :provides =>[:json] do
+		"request."
 	end
 
 end

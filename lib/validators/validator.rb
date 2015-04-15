@@ -5,8 +5,9 @@ module Validator
 
 		def self.testing(method,hash_input)
 			#Actions.set_action('createsession')
-			method_rules(method,hash_input)
-			
+			#method_rules(method,hash_input)
+			get_service(hash_input,method)
+			#hash_input.inspect.to_s
 		end
 
 		def self.method_structure(method,hash_input)
@@ -19,23 +20,22 @@ module Validator
 			method_params = {}
 
 			if service == nil then
-				method_params = file_methods['provider']['methods'][method]['params']
+				method_params = file_methods['partner']['methods'][method]['params']
 
-				if file_methods['provider']['methods'][method].has_key?('dependence') then
-					method_dependence = file_methods['provider']['methods'][method]['dependence']
+				if file_methods['partner']['methods'][method].has_key?('dependence') then
+					method_dependence = file_methods['provider']['methods'][method]['dependence']['methods']
 				end
 			else
-				method_params = file_methods['services'][service]['methods'][method]['params']
+				method_params = file_methods['partner']['services'][service]['methods'][method]['params']
 
-				if file_methods['services'][service]['methods'][method].has_key?('dependence') then
-					method_dependence = file_methods['services'][service]['methods'][method]['dependence']
+				if file_methods['partner']['services'][service]['methods'][method].has_key?('dependence') then
+					method_dependence = file_methods['partner']['services'][service]['methods'][method]['dependence']['methods']
 				end
 			end
 
 			if method_dependence != nil then
 				dependence = resolve_dependence(method_dependence)
-				if dependence != true
-					#return method.to_s + " has dependence of : " + dependence.to_s
+				if dependence != true					
 					raise method.to_s + " Has Dependence Of : " + dependence.to_s
 				end
 			end
@@ -53,17 +53,26 @@ module Validator
 		end
 
 		def self.method_rules(method,hash_input)
+			config_rules = Hash.new
+			config_fields = Hash.new
+			fields = Hash.new
 
 			file_validations = Configuration.get_validator
 
 			service = get_service(hash_input,method)
 
 			if service == nil then
-				config_rules = file_validations['provider']['methods'][method]['rules']
-				config_fields = file_validations['provider']['methods'][method]['fields']
+				#if file_validations['partner']['methods'][method].has_key?('rules') then
+				config_rules = file_validations['partner']['methods'][method]['rules']
+				config_fields = file_validations['partner']['methods'][method]['fields']
+				#end
 			else
-				config_rules = file_validations['services'][service]['methods'][method]['rules']
-				config_fields = file_validations['services'][service]['methods'][method]['fields']
+				
+				config_rules = file_validations['partner']['services'][service]['methods'][method]['rules']
+				config_fields = file_validations['partner']['services'][service]['methods'][method]['fields']
+			end
+			if config_rules == nil then
+				return true
 			end
 
 			request_childs = hash_input[:body][:fields]
@@ -154,20 +163,14 @@ module Validator
 		end
 
 		def self.get_service(hash_input, method)
-
+			
 			file_methods = Configuration.get_methods
-			param = file_methods['provider']['methodparam'][method]
 
-			if param != nil then
+			if file_methods['partner']['methods'][method].has_key?('serviceId') then
 				request_childs = hash_input[:body][:fields]
-
-				request_childs.each do |key,value|
-					if key.to_s == param.to_s then
-						return value						
-					end
-				end
+				return get_value_of(request_childs,file_methods['partner']['methods'][method]['serviceId'])
 			end
-			nil
+			nil			
 		end
 		
 		def self.validate(rule)

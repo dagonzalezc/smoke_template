@@ -1,25 +1,30 @@
-provider: &common
-  endpoint: &endpoint
-    development: development
-    production: production
-    test: test
-    default: test
-  methodparam: &asignmethodwithparam
-    billpay: reference1
-    procesar: NomEmpresa
+partner: &common
+  endpoints:
+    endpoint1: 
+      url: "/"
+      inputType: xml
+    endpoint2:
+      url: "/url_param"
+      inputType: url
+      methodId: method
+    endpoint3:
+      url: "/json"
+      inputType: json
+      methodId: method
   methods: &methods
-      createsession: &createsession
-        dependence:
-        params:
       login: &methodlogin
         dependence: &logindependence
-          createsession:
+          methods:
+            createsession:
         params: &loginparams
           sessionid:
           initiator:
           pin:
       procesar: &methodprocesar
+        serviceId: NomEmpresa
         dependence: &procesardependence
+          methods:
+            createsession:
         params: &procesarparams
           operacion:
           parametros:
@@ -30,24 +35,16 @@ provider: &common
             NomEmpresa:
             NumServicio:
             IdentificadorS1:
-      billpay: &methodbillpay
-        dependence: &billpaydependence
-          login:
-          createsession:
-        params: &billpayparams
-          sessionid:
-          target:
-          amount:
-          reference1:
-          reference2:
-          details:
-services: &services
-  enee: &enee
-    methods: &eneemethods
-      <<: *methods
-  aguas: &aguas
-    methods: &aguasmethods
-      <<: *methods
-  sanaa: &sanaa
-    methods: &sanaamethods
-      <<: *methods
+      query:
+        params:
+          operacion:
+  services: &services
+    enee: &enee
+      methods: &eneemethods
+        <<: *methods
+    aguas: &aguas
+      methods: &aguasmethods
+        <<: *methods
+    sanaa: &sanaa
+      methods: &sanaamethods
+        <<: *methods
