@@ -36,7 +36,9 @@ class SmokeTemplate < Sinatra::Base
 	end
 
 	post '/json', :provides =>[:json] do
-		"request."
+		use_response = Manager.request(request)
+		#use_response.to_s
+		respond_with use_response[:view],:parameters => use_response[:params]
 	end
 
 end

@@ -17,7 +17,7 @@ class UrlParser
 
 		method_name = input_params[param_method]
 		fields = input_params
-		fields.delete(method_name)
+		fields.delete(param_method)
 
 		{:body => {:method => method_name, :fields => fields}}
 		

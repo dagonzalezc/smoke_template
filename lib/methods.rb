@@ -40,7 +40,7 @@ module Methods
 					
 			end
 
-			@parsed_request
+			#@parsed_request.inspect.to_s
 
 			if file_methods['partner']['methods'].has_key?(@parsed_request[:body][:method]) then
 				action= @parsed_request[:body][:method].capitalize
