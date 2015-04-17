@@ -23,7 +23,7 @@ module Validator
 				method_params = file_methods['partner']['methods'][method]['params']
 
 				if file_methods['partner']['methods'][method].has_key?('dependence') then
-					method_dependence = file_methods['provider']['methods'][method]['dependence']['methods']
+					method_dependence = file_methods['partner']['methods'][method]['dependence']['methods']
 				end
 			else
 				method_params = file_methods['partner']['services'][service]['methods'][method]['params']

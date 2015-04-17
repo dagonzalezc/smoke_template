@@ -1,0 +1,72 @@
+partner: &partner
+  errors: &errors
+    lists: &lists
+      list1: &list1
+        sucess: &successmessage
+          code: 0000
+          message: Operation Success! desde archivo
+          description:
+        validation:
+          code: 0001
+          message: estructura o reglas no validas
+          description:
+        error1: &error1
+          code: 24
+          message: mensaje de prueba para codigo 24
+          description:
+        error2: &error2
+          code: 25
+          message: mensaje de prueba  para codigo 25
+          description:
+      list2: &list2
+        error3: &error3
+          code: 30
+          message: mensaje de prueba para codigo 30
+          description:
+    magics:
+      magic1: &magic1
+        number: 61003
+        error:
+          code: 0000
+          message: Operation Success! magic Number
+          description:
+  methods: &methods
+    login: &login      
+      errors:
+        lists:
+          list1:
+            <<: *list1
+        magics:
+          magic1:
+            <<: *magic1
+    query:
+      serviceId: NomEmpresa
+      magic:
+        inputId: account
+        rule: account.split(//).last(5).join("").to_s
+      errors:
+        lists:
+          list1:
+            <<: *list1
+        magics:
+          magic1:
+            <<: *magic1
+    procesar:
+      serviceId: NomEmpresa
+      magic:
+        inputId: Aviso
+        rule: Aviso.split(//).last(5).join("").to_s
+      errors:
+        lists:
+          list1:
+            <<: *list1
+        magics:
+          magic1:
+            <<: *magic1
+  services: &services
+    enee: &enee
+      methods: &eneemethods
+        <<: *methods
+    aguas: &aguas
+      methods: &aguasmethods
+        <<: *methods

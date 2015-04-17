@@ -24,7 +24,6 @@ partner: &common
         serviceId: NomEmpresa
         dependence: &procesardependence
           methods:
-            createsession:
         params: &procesarparams
           operacion:
           parametros:
@@ -38,6 +37,7 @@ partner: &common
       query:
         params:
           operacion:
+          account:
   services: &services
     enee: &enee
       methods: &eneemethods
