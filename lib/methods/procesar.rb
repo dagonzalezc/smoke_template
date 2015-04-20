@@ -8,6 +8,7 @@ module Methods
 
     def procesar(hash_input)       
       error_manager = Error.new
+      validate = Validator::Validate.new
 
       response = {  :view => nil , 
                     :valid_action => false, 
@@ -19,7 +20,7 @@ module Methods
       error_manager.add_request(hash_input)
 
       begin
-        if Validator::Validate.method_structure('procesar',hash_input)
+        if validate.method_structure('procesar',hash_input)
             magic_input = error_manager.magic_input            
             if !magic_input.nil?
               if error_manager.is_magic?(magic_input)   
@@ -30,7 +31,7 @@ module Methods
                 return response
             end
           end
-          if Validator::Validate.method_rules('procesar',hash_input)
+          if validate.method_rules('procesar',hash_input)
 
             Actions.set_action("procesar")
 

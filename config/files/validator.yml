@@ -27,7 +27,7 @@ partner: &common
       rules: &procesarrules
         rule1: operacion == 'ConNor'
         rule2: NomEmpresa.length > 1
-        rule3: ModBusqueda == '20'
+        rule3: ModBusqueda == 20
     query:
       fields:
       rules:

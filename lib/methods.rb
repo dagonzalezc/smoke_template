@@ -1,14 +1,16 @@
 # ****************************** Using Owner ****************************
 
+require_relative './../config/config'
+require './lib/actions'
+
+# ****************************** Add we Own Created Methods ****************************
+
 require './lib/methods/createsession'
 require './lib/methods/procesar'
 require './lib/methods/billpay'
 require './lib/methods/login'
 require './lib/methods/query'
 
-require_relative './../config/config'
-
-require './lib/actions'
 
 
 module Methods
@@ -21,7 +23,7 @@ module Methods
 			file_methods = Configuration.get_methods
 
 			file_methods['partner']['endpoints'].each_value do |endpoint|
-				if endpoint['url'].to_s == method_request.path_info.to_s then
+				if endpoint['url'].to_s == method_request.path_info.to_s 
 					content_type = endpoint['inputType'].downcase.to_sym
 				end
 			end
@@ -42,7 +44,7 @@ module Methods
 
 			#@parsed_request.inspect.to_s
 
-			if file_methods['partner']['methods'].has_key?(@parsed_request[:body][:method]) then
+			if file_methods['partner']['methods'].has_key?(@parsed_request[:body][:method])
 				action= @parsed_request[:body][:method].capitalize
 				obj =  Object.const_get('Methods').const_get(action.to_s).new
 				obj.send(@parsed_request[:body][:method].downcase,@parsed_request)

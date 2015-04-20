@@ -34,7 +34,8 @@ class XmlParser
     hash_response
   end
 
-
+  private 
+  
   def clean_return xml
     regex = /<return><!\[CDATA\[(.*)\]\]><\/return>/
       if regex =~ xml

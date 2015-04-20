@@ -4,7 +4,7 @@
          <return>
             <![CDATA[<wsRespuesta xmlns="AstraDTS">
                 <CodError>0000</CodError>
-                <MenError>Success</MenError>
+                <MenError><%= parameters[:error_message] %></MenError>
                 <DesError>N/A</DesError>
                 <SaldosConsulta>
                     <wsRespSaldos.wsRespSaldosItem>

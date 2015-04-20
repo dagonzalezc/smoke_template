@@ -3,6 +3,7 @@ require 'yaml'
 class Error
 	
 	attr_accessor :error_container
+	
 	@service_name = nil
 	@input_request = Hash.new
 	@hash_magics = Hash.new
@@ -62,7 +63,7 @@ class Error
 		end
 
 		@hash_magics.each_value do |magic|
-			if magic['number'].to_s == number.to_s then
+			if magic['number'].to_s == number.to_s
 				return true
 			end
 		end
@@ -81,9 +82,9 @@ class Error
 					return magic['error']
 				end
 			end			
-		elsif !@hash_lists.nil? then
+		elsif !@hash_lists.nil?
 			@hash_lists.each do |key_group,group|
-				if group.is_a?(Hash) then					
+				if group.is_a?(Hash) 
 					group.each_value do |group_error|
 						if group_error['code'].to_s == code.to_s
 							return group_error

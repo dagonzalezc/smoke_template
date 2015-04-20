@@ -3,14 +3,8 @@ require_relative './../../config/config'
 module Validator
 	class Validate
 
-		def self.testing(method,hash_input)
-			#Actions.set_action('createsession')
-			#method_rules(method,hash_input)
-			get_service(hash_input,method)
-			#hash_input.inspect.to_s
-		end
 
-		def self.method_structure(method,hash_input)
+		def method_structure(method,hash_input)
 			
 			file_methods = Configuration.get_methods
 
@@ -19,21 +13,21 @@ module Validator
 			method_dependence = nil
 			method_params = {}
 
-			if service == nil then
+			if service.nil?
 				method_params = file_methods['partner']['methods'][method]['params']
 
-				if file_methods['partner']['methods'][method].has_key?('dependence') then
+				if file_methods['partner']['methods'][method].has_key?('dependence') 
 					method_dependence = file_methods['partner']['methods'][method]['dependence']['methods']
 				end
 			else
 				method_params = file_methods['partner']['services'][service]['methods'][method]['params']
 
-				if file_methods['partner']['services'][service]['methods'][method].has_key?('dependence') then
+				if file_methods['partner']['services'][service]['methods'][method].has_key?('dependence') 
 					method_dependence = file_methods['partner']['services'][service]['methods'][method]['dependence']['methods']
 				end
 			end
 
-			if method_dependence != nil then
+			if !method_dependence.nil? 
 				dependence = resolve_dependence(method_dependence)
 				if dependence != true					
 					raise method.to_s + " Has Dependence Of : " + dependence.to_s
@@ -52,7 +46,7 @@ module Validator
 
 		end
 
-		def self.method_rules(method,hash_input)
+		def method_rules(method,hash_input)
 			config_rules = Hash.new
 			config_fields = Hash.new
 			fields = Hash.new
@@ -61,17 +55,16 @@ module Validator
 
 			service = get_service(hash_input,method)
 
-			if service == nil then
-				#if file_validations['partner']['methods'][method].has_key?('rules') then
+			if service.nil?
 				config_rules = file_validations['partner']['methods'][method]['rules']
 				config_fields = file_validations['partner']['methods'][method]['fields']
-				#end
 			else
 				
 				config_rules = file_validations['partner']['services'][service]['methods'][method]['rules']
 				config_fields = file_validations['partner']['services'][service]['methods'][method]['fields']
 			end
-			if config_rules == nil then
+
+			if config_rules.nil? then
 				return true
 			end
 
@@ -83,7 +76,7 @@ module Validator
 				arule = valuerule
 				fields.each do |keyfield,valuefield|
 					change_value=valuefield
-					if valuefield.class == String then
+					if !is_number?(valuefield) 
 						change_value = "'" + change_value + "'"
 					end
 					arule = arule.gsub(keyfield,change_value )
@@ -92,7 +85,7 @@ module Validator
 			end
 
 			config_rules.each_value do |value|
-				if !validate(value) then
+				if !validate(value) 
 					raise " not pass rule : " + value
 				end
 			end
@@ -104,7 +97,7 @@ module Validator
 		private
 
 
-		def self.resolve_dependence(hash_dependence)
+		def resolve_dependence(hash_dependence)
 			hash_actions = Actions.get_actions
 			hash_dependence.each do |key,value|
 				if !hash_actions.has_key?(key)
@@ -114,12 +107,12 @@ module Validator
 			true
 		end
 
-		def self.compare_hash(hash_from, hash_to)
+		def compare_hash(hash_from, hash_to)
 			hash_from.each do |from_key,from_value| 	
-				if from_value.is_a?(Hash) then
+				if from_value.is_a?(Hash) 
 					compare_hash(from_value,hash_to)
 				else
-				 	if !exists_key(hash_to,from_key) then
+				 	if !exists_key(hash_to,from_key) 
 						return " Misses Parameter : " + from_key.to_s
 					end
 				end
@@ -127,10 +120,10 @@ module Validator
 			true
 		end
 
-	    def self.exists_key(hash,find_key)
+	    def exists_key(hash,find_key)
 	    	hash_response = false
 	       	hash.each do |key,value|
-	       		if find_key.to_s == key.to_s then
+	       		if find_key.to_s == key.to_s
 	       			return true
 	       		else
 	       			if value.is_a?(Hash)
@@ -141,20 +134,20 @@ module Validator
 	       hash_response
 	    end
 
-		def self.replace_fields(input,fields)	
+		def replace_fields(input,fields)	
 			fields.each do |key,value| 
 				fields[key] = get_value_of(input,key)				
 			end
 			fields
 		end
 
-		def self.get_value_of(hash_input,key)
+		def get_value_of(hash_input,key)
 			value = nil
-			if hash_input.has_key?(key) then
+			if hash_input.has_key?(key) 
 				return hash_input[key]
 			else
 				hash_input.each do |input_key,input_value|
-					if input_value.is_a?(Hash) then
+					if input_value.is_a?(Hash) 
 						value = get_value_of(input_value,key)
 					end
 				end
@@ -162,20 +155,23 @@ module Validator
 			value
 		end
 
-		def self.get_service(hash_input, method)
+		def get_service(hash_input, method)
 			
 			file_methods = Configuration.get_methods
 
-			if file_methods['partner']['methods'][method].has_key?('serviceId') then
+			if file_methods['partner']['methods'][method].has_key?('serviceId')
 				request_childs = hash_input[:body][:fields]
 				return get_value_of(request_childs,file_methods['partner']['methods'][method]['serviceId'])
 			end
 			nil			
 		end
 		
-		def self.validate(rule)
+		def validate(rule)
 			eval(rule)
 		end
 
+		def is_number?(value)
+    		true if Float(value) rescue false
+		end
 	end
 end
