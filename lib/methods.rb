@@ -5,9 +5,7 @@ require './lib/actions'
 
 # ****************************** Add we Own Created Methods ****************************
 
-require './lib/methods/createsession'
 require './lib/methods/procesar'
-require './lib/methods/billpay'
 require './lib/methods/login'
 require './lib/methods/query'
 
