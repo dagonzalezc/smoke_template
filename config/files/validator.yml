@@ -18,7 +18,6 @@ partner: &common
         rule1: initiator.length >0
         rule2: pin.length > 0
         rule3: sessionid.length  > 0
-    createsession: &createsession
     procesar: &query
       fields: &procesarfields
         operacion:
@@ -30,7 +29,9 @@ partner: &common
         rule3: ModBusqueda == 20
     query:
       fields:
+        account:
       rules:
+        rule1: account > 0
   services: &services
     enee: &enee
       methods: &eneemethods

@@ -4,9 +4,10 @@ module Validator
 	class Validate
 
 
-		def method_structure(method,hash_input)
+		def method_structure(hash_input)
 			
 			file_methods = Configuration.get_methods
+			method = hash_input[:body][:method]
 
 			service = get_service(hash_input,method)
 
@@ -30,7 +31,7 @@ module Validator
 			if !method_dependence.nil? 
 				dependence = resolve_dependence(method_dependence)
 				if dependence != true					
-					raise method.to_s + " Has Dependence Of : " + dependence.to_s
+					return method.to_s + " Has Dependence Of : " + dependence.to_s
 				end
 			end
 
@@ -39,17 +40,19 @@ module Validator
 			compare = compare_hash(method_params,request_childs)
 
 			if compare != true
-				 raise compare.to_s
+				 return compare.to_s
 			end
 
 			true
 
 		end
 
-		def method_rules(method,hash_input)
+		def method_rules(hash_input)
 			config_rules = Hash.new
 			config_fields = Hash.new
 			fields = Hash.new
+
+			method = hash_input[:body][:method]
 
 			file_validations = Configuration.get_validator
 
@@ -86,7 +89,7 @@ module Validator
 
 			config_rules.each_value do |value|
 				if !validate(value) 
-					raise " not pass rule : " + value
+					return " not pass rule : " + value
 				end
 			end
 
@@ -163,7 +166,9 @@ module Validator
 				request_childs = hash_input[:body][:fields]
 				return get_value_of(request_childs,file_methods['partner']['methods'][method]['serviceId'])
 			end
+
 			nil			
+			
 		end
 		
 		def validate(rule)

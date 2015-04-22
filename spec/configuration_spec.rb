@@ -1,8 +1,7 @@
-#require 'spec_helper'
-require 'rspec'
+require 'spec_helper'
 require 'yaml'
 
-describe "Files Configuration" do
+describe "Files Configuration", focus: true do
 
   let(:root)   {File.expand_path('../../', __FILE__)}
   let(:config) {File.open(root + '/config/files/methods.yml')}
@@ -13,23 +12,25 @@ describe "Files Configuration" do
   let(:validator) {YAML::load(config_validator)}
   let(:error) {YAML::load(config_error)}
 
-  it "must load validator File" do    
-    expect(validator).not_to be_nil
-  end
+  describe "Exists Configuration files" do
+    it "must load validator File" do    
+      expect(validator).not_to be_nil
+    end
 
-  it "must load methods File" do
-    expect(method).not_to be_nil
-  end
+    it "must load methods File" do
+      expect(method).not_to be_nil
+    end
 
-  it "must load Errors File" do
-    expect(error).not_to be nil
+    it "must load Errors File" do
+      expect(error).not_to be nil
+    end
   end
-
+  
   describe "Configuration Files" do
 
     describe "methods Configuration" do
 
-      it "should be defined root" do        
+      it "should be defined root" do
         expect(method['partner']['methods']).not_to be nil
       end
 
@@ -75,7 +76,7 @@ describe "Files Configuration" do
           expect(endpoint.has_key?('inputType')).to eq(true)
           expect(endpoint['url']).not_to be nil
           expect(endpoint['url']).not_to be_empty
-          #expect(endpoint['inputType']).to be(1) #include("xml", "url", "json")
+          expect(["xml","json","url"]).to include(endpoint['inputType'].to_s)
           case endpoint['inputType'].to_sym
             when :json , :url
               expect(endpoint.has_key?('methodId')).to eq(true)

@@ -29,27 +29,28 @@ module Methods
 			case content_type
 				when :xml
 					require './lib/parsers/xml_parser'			
-					@parsed_request= XmlParser.get_parser(method_request.body) 
+					@parsed_request= XmlParser.get_parser(method_request.body.read) 
 
 				when :json			
 					require './lib/parsers/json_parser'
-					@parsed_request = JsonParser.get_parser(method_request.body)
+					@parsed_request = JsonParser.get_parser(method_request.body.read)
 				when :url
 					require './lib/parsers/url_parser'
-					@parsed_request = UrlParser.get_parser(method_request.body,input_params)
+					@parsed_request = UrlParser.get_parser(method_request.body.read,input_params)
 					
 			end
 
-			#@parsed_request.inspect.to_s
+			if @parsed_request[:body][:method].nil?
+				return { :view => :error, :valid_action => false, :params => {:error_message => "Not valid Action Request"}}
+			end
 
 			if file_methods['partner']['methods'].has_key?(@parsed_request[:body][:method])
 				action= @parsed_request[:body][:method].capitalize
 				obj =  Object.const_get('Methods').const_get(action.to_s).new
 				obj.send(@parsed_request[:body][:method].downcase,@parsed_request)
 			else
-				{ :view => :error, :valid_action => false, :params => {:ErrorMesage => "Not Added method"}}	
+				{ :view => :error, :valid_action => false, :params => {:error_message => "Not Added method"}}	
 			end
-			#file_methods['partner']['worker'].inspect.to_s
 		end
 
 	end

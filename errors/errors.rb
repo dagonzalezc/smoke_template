@@ -54,6 +54,11 @@ class Error
 	end
 
 	def is_magic?(number)
+
+		if !is_number?(number)
+			return false
+		end
+
 		if @hash_magics.nil?
 			return false
 		end
@@ -75,14 +80,15 @@ class Error
 		raise error.code.to_s + error.message
 	end
 
-	def get_error(code, use_magic = false )
-		if use_magic
-			@hash_magics.each_value do |magic|
-				if magic['number'].to_s == code.to_s
-					return magic['error']
-				end
-			end			
-		elsif !@hash_lists.nil?
+	def get_error(code)
+
+		not_error = {'code' => "0", 'message' => "Not Error added to List"}
+
+		if !is_number?(code)
+			return not_error
+		end
+
+		if !@hash_lists.nil?
 			@hash_lists.each do |key_group,group|
 				if group.is_a?(Hash) 
 					group.each_value do |group_error|
@@ -94,8 +100,26 @@ class Error
 			end
 		end
 
-		{'code' => "0", 'message' => "Not Error added to List"}
+		not_error
 
+	end
+	
+	def get_magic(code)
+
+		not_magic = {'code' => "0", 'message' => "Not Magic added"}
+		
+		if !is_number?(code)
+			return not_magic
+		end
+
+		if !@hash_magics.nil?
+			@hash_magics.each_value do |magic|
+				if magic['number'].to_s == code.to_s
+					return magic['error']
+				end
+			end
+		end
+		
 	end
 
 	private 
@@ -126,6 +150,10 @@ class Error
 			end
 		end
 		value
+	end
+
+	def is_number?(value)
+		true if Float(value) rescue false
 	end
 
 end
