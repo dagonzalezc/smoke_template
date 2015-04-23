@@ -2,6 +2,7 @@
 require 'active_support/core_ext/hash/conversions'
 
 class XmlParser
+  
   def self.get_parser(method_request)
     begin
       fields = Hash.new
@@ -15,8 +16,7 @@ class XmlParser
       {:body => {:method => method_name, :fields => fields}}
     rescue
       {:body => {:method => nil, :fields => nil}}
-    end
-    
+    end    
   end
 
   def self.get_key(hash,find_key)

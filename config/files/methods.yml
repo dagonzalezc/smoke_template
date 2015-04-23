@@ -1,8 +1,17 @@
 partner: &common
+  environment:
+    sleep: 0
+    actions:
+      timeout: 10
   endpoints:
     endpoint1: 
       url: "/"
       inputType: xml
+      wsdl: wsdl_1
+    endpointn:
+      url: "/GestorConexionesEnLinea/Enlace"
+      inputType: xml
+      wsdl: wsdl_1
     endpoint2:
       url: "/url_param"
       inputType: url
@@ -15,7 +24,6 @@ partner: &common
       login: &methodlogin
         dependence: &logindependence
           methods:
-            createsession:
         params: &loginparams
           sessionid:
           initiator:
@@ -24,6 +32,7 @@ partner: &common
         serviceId: NomEmpresa
         dependence: &procesardependence
           methods:
+            query:
         params: &procesarparams
           operacion:
           parametros:
