@@ -13,7 +13,7 @@ GEM
     json (1.8.2)
     minitest (5.6.0)
     multi_json (1.11.0)
-    rack (1.6.0)
+    rack (1.5.2)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -22,9 +22,9 @@ GEM
       rspec-core (~> 3.2.0)
       rspec-expectations (~> 3.2.0)
       rspec-mocks (~> 3.2.0)
-    rspec-core (3.2.2)
+    rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
-    rspec-expectations (3.2.0)
+    rspec-expectations (3.2.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-mocks (3.2.1)
@@ -52,7 +52,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
-  rack
+  rack (= 1.5.2)
   rspec
   sinatra
   sinatra-contrib

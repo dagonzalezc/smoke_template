@@ -2,7 +2,7 @@ partner: &common
   environment:
     sleep: 0
     actions:
-      timeout: 10
+      timeout: 60
   endpoints:
     endpoint1: 
       url: "/"

@@ -34,6 +34,7 @@ module Methods
             return response
           end
         end
+        
         result_rules = @validate.method_rules(hash_input)
 
         if result_rules == true

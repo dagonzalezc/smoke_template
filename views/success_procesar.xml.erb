@@ -2,31 +2,12 @@
    <S:Body>
       <ns2:procesarResponse xmlns:ns2="http://web.app/">
          <return>
-            <![CDATA[<wsRespuesta xmlns="AstraDTS">
-                <CodError>0000</CodError>
+            <wsRespuesta xmlns="AstraDTS">                
                 <MenError><%= parameters[:error_message] %></MenError>
-                <DesError>N/A</DesError>
-                <SaldosConsulta>
-                    <wsRespSaldos.wsRespSaldosItem>
-                        <Biller>enee</Biller>
-                        <NumServicio>1</NumServicio>
-                        <Reference1>0001951</Reference1>
-                        <Reference2>C 14  2719              COL MIRAMONTES</Reference2>
-                        <Reference3>3279.05</Reference3>
-                        <Reference4></Reference4>
-                        <Reference5>ZELAYA E LUIS HUMBERTO</Reference5>
-                        <ValMon>LPS</ValMon>
-                        <PagMon>LPS</PagMon>
-                        <FecMaxSald></FecMaxSald>
-                        <valores>
-                            <wsValores.wsValoresItem>
-                                <valSNum>1</valSNum>
-                                <valSMon>00000000000000</valSMon>
-                            </wsValores.wsValoresItem>
-                        </valores>
-                    </wsRespSaldos.wsRespSaldosItem>
-                </SaldosConsulta>
-            </wsRespuesta>]]>
+                <ClientName><%= parameters[:client_name] %></ClientName>
+                <ClientAddress><%= parameters[:client_address] %></ClientAddress>
+                <ClientAmount><%= parameters[:client_amount] %></ClientAmount>
+            </wsRespuesta>>
         </return>
       </ns2:procesarResponse>
    </S:Body>

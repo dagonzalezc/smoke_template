@@ -1,0 +1,27 @@
+faker:
+  es:
+    names:
+      lists:
+        name: ["Pedro","Jose","Luis","Ernesto","David","Daniel","Wilson","Victor","Miguel","Oscar"
+        ,"Antonio","Jeremias","Santiago","Hector","Pablo","Elmer","Carlos","Angel","Leonel"]
+        namewomen: ["Darla","Maria","Heydi","Jennifer","Marlen","Melani","Paola","Carla","Karen","Cindy","Andrea",
+        "Bella","Ana","Zonia","Zoila",""]
+        lastname: ["Gonzalez","Arevalo","Castro","Cameni","Perez","Lopez","Alvarado","Carrera","Cabrera","Jimenez",
+        "Barrios","Montoya","Alves","Guevara","Morales","Vanegas"]
+      patterns:
+        pattern1: "[name] [name] [lastname] [lastname]"
+        pattern2: "[lastname] [lastname] , [name]"
+        pattern3: "[name] [lastname]"
+        pattern4: "[name] [name] [lastname]"
+        pattern5: "[namewomen] [namewomen] [lastname]"
+        pattern6: "[namewomen] [lastname]"
+        pattern8: "[namewomen] [lastname] de [lastname] "
+    address:
+      lists:
+        street: ['1','2','3','4','Las Ilusiones']
+        house: [23,5,6,3,8,12,42,6]
+        zone: [1,2,3,4,5,6,7,8,9,10,11,12,21]
+        city: ['City','Guatemala','Mixco','Villa Nueva']
+      patterns:
+        pattern1: "[street] Av. [house]-[house] [zone], [city]"
+        pattern2: " Calle [street] , [house]-[house] [zone], [city]"

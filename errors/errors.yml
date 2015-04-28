@@ -4,7 +4,7 @@ partner: &partner
       list1: &list1
         sucess: &successmessage
           code: 0000
-          message: Operation Success! desde archivo
+          message: Operation Success!
           description:
         validation:
           code: 0001

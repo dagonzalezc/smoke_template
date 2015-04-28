@@ -28,6 +28,7 @@ class SmokeTemplate < Sinatra::Base
 
   post '/url_param', :provides =>[:xml]  do       
     use_response = Manager.request(request,params)
+    #use_response.to_s
     respond_with use_response[:view],:parameters => use_response[:params]
   end
 
